@@ -22,6 +22,12 @@ public class Comment {
     @NotNull
     private final Post post;
 
+    // Hibernate requires a no-argument constructor.
+    public Comment() {
+        text = null;
+        post = null;
+    }
+
     public Comment(@JsonProperty("text") final String text, final Post post) {
         this.text = text;
         this.post = post;
