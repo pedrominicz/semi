@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import io.github.pedrominicz.semi.model.Comment;
 import io.github.pedrominicz.semi.model.Post;
+import io.github.pedrominicz.semi.service.CommentService;
 import io.github.pedrominicz.semi.service.PostService;
 
 @RequestMapping("api/post")
@@ -19,9 +21,16 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private CommentService commentService;
+
     @GetMapping(path = "{id}")
     public Post findById(@PathVariable("id") final Long id) {
-        return postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        final Post post = postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        post.setComments(commentService.findAllByPostId(id));
+
+        return post;
     }
 
     @GetMapping
@@ -32,5 +41,12 @@ public class PostController {
     @PostMapping
     public Post save(@RequestBody final Post post) {
         return postService.save(post);
+    }
+
+    @PostMapping(path = "{id}/comment")
+    public void comment(@PathVariable("id") final Long id, @RequestBody final Comment comment) {
+        final Post post = postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        commentService.save(new Comment(comment.getText(), post));
     }
 }

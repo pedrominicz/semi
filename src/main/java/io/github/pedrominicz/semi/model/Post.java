@@ -1,9 +1,14 @@
 package io.github.pedrominicz.semi.model;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +21,9 @@ public class Post {
 
     @NotNull
     private final String text;
+
+    @OneToMany
+    private List<Comment> comments = Collections.emptyList();
 
     // Hibernate requires a no-argument constructor.
     public Post() {
@@ -32,5 +40,13 @@ public class Post {
 
     public String getText() {
         return text;
+    }
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(final List<Comment> comments) {
+        this.comments = comments;
     }
 }
