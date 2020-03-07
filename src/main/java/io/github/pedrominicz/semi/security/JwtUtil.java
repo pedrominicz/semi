@@ -13,6 +13,10 @@ public class JwtUtil {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    private JwtUtil() {
+        // Empty.
+    }
+
     public static String generateToken(final User user) throws JsonProcessingException {
         final String userJson = objectMapper.writeValueAsString(user);
 
