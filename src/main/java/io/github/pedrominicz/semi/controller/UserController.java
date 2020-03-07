@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,9 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @PostMapping(path = "login")
@@ -35,6 +39,6 @@ public class UserController {
 
     @PostMapping(path = "register")
     public String register(@RequestBody final User user) throws JsonProcessingException, AuthenticationException {
-        return login(userService.save(user));
+        return login(userService.save(new User(user.getUsername(), passwordEncoder.encode(user.getPassword()))));
     }
 }
