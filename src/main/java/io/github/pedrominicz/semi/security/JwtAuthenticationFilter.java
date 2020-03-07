@@ -24,14 +24,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             final HttpServletRequest httpRequest = (HttpServletRequest) request;
             final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-            String token = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
+            final String token = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
             try {
                 if (token != null) {
-                    // Skip "Bearer ".
-                    token = token.substring(7);
-
-                    final User user = JwtUtil.parseToken(token);
+                    // `substring(7)` skips "Bearer ".
+                    final User user = JwtUtil.parseToken(token.substring(7));
 
                     SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                             user.getUsername(), user.getPassword(), user.getAuthorities()));
@@ -39,6 +37,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
                 chain.doFilter(request, response);
             } catch (final Throwable throwable) {
+                System.out.println(throwable.getMessage());
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, throwable.getMessage());
             }
         } else {

@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -20,16 +21,22 @@ public class Comment {
 
     @ManyToOne
     @NotNull
+    private final User user;
+
+    @ManyToOne
+    @NotNull
     private final Post post;
 
     // Hibernate requires a no-argument constructor.
     public Comment() {
         text = null;
+        user = null;
         post = null;
     }
 
-    public Comment(@JsonProperty("text") final String text, final Post post) {
+    public Comment(@JsonProperty("text") final String text, final User user, final Post post) {
         this.text = text;
+        this.user = user;
         this.post = post;
     }
 
@@ -39,5 +46,10 @@ public class Comment {
 
     public String getText() {
         return text;
+    }
+
+    @JsonIgnore
+    public Post getPost() {
+        return post;
     }
 }
