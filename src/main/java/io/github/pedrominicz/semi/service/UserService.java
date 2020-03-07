@@ -1,6 +1,9 @@
 package io.github.pedrominicz.semi.service;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +25,12 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> findByUsername(final String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public Set<User> findByUsernameIn(final Set<String> usernames) {
+        final Iterable<User> users = userRepository.findByUsernameIn(usernames);
+
+        return StreamSupport.stream(users.spliterator(), false).collect(Collectors.toSet());
     }
 
     @Override

@@ -1,13 +1,14 @@
 package io.github.pedrominicz.semi.model;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -21,6 +22,9 @@ public class Post {
 
     @NotNull
     private final String text;
+
+    @ManyToMany
+    private Set<User> users = Collections.emptySet();
 
     @OneToMany
     private List<Comment> comments = Collections.emptyList();
@@ -42,7 +46,15 @@ public class Post {
         return text;
     }
 
-    public Collection<Comment> getComments() {
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(final Set<User> users) {
+        this.users = users;
+    }
+
+    public List<Comment> getComments() {
         return comments;
     }
 

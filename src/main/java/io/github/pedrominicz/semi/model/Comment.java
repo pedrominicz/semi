@@ -48,6 +48,10 @@ public class Comment {
         return text;
     }
 
+    public String getUsername() {
+        return user.getUsername();
+    }
+
     @JsonIgnore
     public Post getPost() {
         return post;
