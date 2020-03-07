@@ -10,6 +10,7 @@ import io.github.pedrominicz.semi.service.UserService;
 
 @Component
 public class SecurityUtil {
+
     private static UserService userService;
 
     @Autowired
@@ -21,11 +22,15 @@ public class SecurityUtil {
         // Empty.
     }
 
-    public static User getUser() {
-        // TODO: verify which exception this function throws when the user is
-        // not authenticated.
+    /**
+     * Returns the authenticated user.
+     *
+     * @return the authenticated user
+     */
+    public static User getAuthenticatedUser() {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         return userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
+
 }

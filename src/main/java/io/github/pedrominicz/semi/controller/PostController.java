@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ import io.github.pedrominicz.semi.service.UserService;
 @RequestMapping("api/post")
 @RestController
 public class PostController {
+
     @Autowired
     private PostService postService;
 
@@ -36,12 +38,24 @@ public class PostController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Returns all posts.
+     *
+     * @return the posts
+     */
     @GetMapping
     public Iterable<Post> findAll() {
         return postService.findAll();
     }
 
+    /**
+     * Returns a post and all comments that belong to it.
+     *
+     * @param id the ID of the post
+     * @return the post
+     */
     @GetMapping(path = "{id}")
+    @PreAuthorize("permitAll()")
     public Post findById(@PathVariable("id") final Long id) {
         final Post post = postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -50,13 +64,17 @@ public class PostController {
         return post;
     }
 
+    /**
+     * Saves a post. In addition to `users`, the post will also belong to the
+     * authenticated user.
+     *
+     * @param post the post to be saved
+     * @return the saved post
+     */
     @PostMapping
+    @PreAuthorize("isAuthenticated()")
     public Post save(@RequestBody final Post post) {
-        // TODO: add explicit annotations expressing the method's security.
-        // Currently only by knowing that `SecurityUtil.getUser()` needs the
-        // user to be logged in and reading the function body one can conclude
-        // the function requires authentication.
-        final User user = SecurityUtil.getUser();
+        final User user = SecurityUtil.getAuthenticatedUser();
 
         final Set<String> usernames = post.getUsers().stream().map(User::getUsername).collect(Collectors.toSet());
 
@@ -67,24 +85,53 @@ public class PostController {
         return postService.save(post);
     }
 
+    /**
+     * Saves a comment.
+     *
+     * @param id      the ID of the post the comment will belong to
+     * @param comment the comment to be saved
+     * @return the saved comment
+     */
     @PostMapping(path = "{id}/comment")
+    @PreAuthorize("isAuthenticated()")
     public Comment saveComment(@PathVariable("id") final Long id, @RequestBody final Comment comment) {
-        final User user = SecurityUtil.getUser();
+        final User user = SecurityUtil.getAuthenticatedUser();
 
         final Post post = postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         return commentService.save(new Comment(comment.getText(), user, post));
     }
 
+    /**
+     * Deletes a comment if it exists and the user is authorized to do so.
+     *
+     * @param id         the ID of the post the comment belongs to
+     * @param comment_id the comment ID
+     */
     @DeleteMapping(path = "{id}/comment/{comment_id}")
-    public void deleteCommentById(@PathVariable("id") final Long id, @PathVariable("comment_id") final Long comment_id) {
+    @PreAuthorize("isAuthenticated()")
+    public void deleteCommentById(@PathVariable("id") final Long id,
+            @PathVariable("comment_id") final Long comment_id) {
+        // Verity if the comment exists and belongs to the post.
         final Comment comment = commentService.findById(comment_id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (!comment.getPost().getId().equals(id)) {
+        final Post post = comment.getPost();
+
+        if (!post.getId().equals(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        // Verify if the authenticated user is authorized to delete the comment.
+        final Set<User> authorizedUsers = post.getUsers();
+
+        authorizedUsers.add(comment.getUser());
+
+        if (!authorizedUsers.contains(SecurityUtil.getAuthenticatedUser())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
         commentService.deleteById(comment_id);
     }
+
 }

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Long id = null;
@@ -48,12 +49,13 @@ public class Comment {
         return text;
     }
 
-    public String getUsername() {
-        return user.getUsername();
+    public User getUser() {
+        return user;
     }
 
     @JsonIgnore
     public Post getPost() {
         return post;
     }
+
 }
