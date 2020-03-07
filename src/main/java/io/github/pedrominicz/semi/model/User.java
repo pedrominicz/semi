@@ -1,6 +1,6 @@
 package io.github.pedrominicz.semi.model;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -57,7 +57,7 @@ public class User implements UserDetails {
 
     @Override
     public List<SimpleGrantedAuthority> getAuthorities() {
-        final List<SimpleGrantedAuthority> authorities = Collections.emptyList();
+        final List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>(2);
 
         authorities.add(new SimpleGrantedAuthority("user"));
 

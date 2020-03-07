@@ -45,10 +45,10 @@ public class PostController {
     }
 
     @PostMapping(path = "{id}/comment")
-    public void saveComment(@PathVariable("id") final Long id, @RequestBody final Comment comment) {
+    public Comment saveComment(@PathVariable("id") final Long id, @RequestBody final Comment comment) {
         final Post post = postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        commentService.save(new Comment(comment.getText(), post));
+        return commentService.save(new Comment(comment.getText(), post));
     }
 
     @DeleteMapping(path = "{id}/comment/{comment_id}")
