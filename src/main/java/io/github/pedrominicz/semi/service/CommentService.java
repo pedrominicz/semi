@@ -11,6 +11,7 @@ import io.github.pedrominicz.semi.repository.CommentRepository;
 
 @Service
 public class CommentService {
+
     @Autowired
     private CommentRepository commentRepository;
 
@@ -22,11 +23,12 @@ public class CommentService {
         return commentRepository.findById(id);
     }
 
-    public List<Comment> findAllByPostId(final Long post_id) {
-        return commentRepository.findAllByPostId(post_id);
+    public List<Comment> findAllByPostId(final Long postId) {
+        return commentRepository.findAllByPostId(postId);
     }
 
     public void deleteById(final Long id) {
         commentRepository.deleteById(id);
     }
+
 }

@@ -17,6 +17,7 @@ import org.springframework.web.filter.GenericFilterBean;
 import io.github.pedrominicz.semi.model.User;
 
 public class JwtAuthenticationFilter extends GenericFilterBean {
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -43,6 +44,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         } else {
             chain.doFilter(request, response);
         }
-
     }
+
 }

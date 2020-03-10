@@ -28,9 +28,18 @@ public class SecurityUtil {
      * @return the authenticated user
      */
     public static User getAuthenticatedUser() {
-        final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        final String username = getAuthenticatedUserUsername();
 
         return userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    /**
+     * Returns the user name of the authenticated user.
+     *
+     * @return the user name of the authenticated user
+     */
+    public static String getAuthenticatedUserUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
 }

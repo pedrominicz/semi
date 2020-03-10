@@ -22,7 +22,7 @@ public class Comment {
 
     @ManyToOne
     @NotNull
-    private final User user;
+    private final User author;
 
     @ManyToOne
     @NotNull
@@ -31,13 +31,13 @@ public class Comment {
     // Hibernate requires a no-argument constructor.
     public Comment() {
         text = null;
-        user = null;
+        author = null;
         post = null;
     }
 
-    public Comment(@JsonProperty("text") final String text, final User user, final Post post) {
+    public Comment(final User author, final Post post, @JsonProperty("text") final String text) {
         this.text = text;
-        this.user = user;
+        this.author = author;
         this.post = post;
     }
 
@@ -49,8 +49,8 @@ public class Comment {
         return text;
     }
 
-    public User getUser() {
-        return user;
+    public User getAuthor() {
+        return author;
     }
 
     @JsonIgnore

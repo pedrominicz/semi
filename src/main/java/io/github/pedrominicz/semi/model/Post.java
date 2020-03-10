@@ -24,7 +24,7 @@ public class Post {
     private final String text;
 
     @ManyToMany
-    private Set<User> users = Collections.emptySet();
+    private Set<User> moderators = Collections.emptySet();
 
     @OneToMany
     private List<Comment> comments = Collections.emptyList();
@@ -46,12 +46,12 @@ public class Post {
         return text;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public Set<User> getModerators() {
+        return moderators;
     }
 
-    public void setUsers(final Set<User> users) {
-        this.users = users;
+    public void setModerators(final Set<User> moderators) {
+        this.moderators = moderators;
     }
 
     public List<Comment> getComments() {

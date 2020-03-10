@@ -9,6 +9,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtUtil {
+
     private static final String secret = "secret";
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -29,4 +30,5 @@ public class JwtUtil {
 
         return objectMapper.readValue(content, User.class);
     }
+
 }

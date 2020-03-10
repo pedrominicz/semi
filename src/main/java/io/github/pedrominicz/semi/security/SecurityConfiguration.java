@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -44,6 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // Taken from `org.springframework.security.crypto.password` because I
     // don't like deprecation warnings.
     private static class NoOpPasswordEncoder implements PasswordEncoder {
+
         private static final PasswordEncoder instance = new NoOpPasswordEncoder();
 
         public static PasswordEncoder getInstance() {
@@ -61,5 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         public boolean matches(CharSequence rawPassword, String encodedPassword) {
             return rawPassword.toString().equals(encodedPassword);
         }
+
     }
+
 }
