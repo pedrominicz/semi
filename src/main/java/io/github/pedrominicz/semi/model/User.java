@@ -1,16 +1,17 @@
 package io.github.pedrominicz.semi.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,12 +36,8 @@ public class User implements UserDetails {
     @NotNull
     private final String password;
 
-    @Column(columnDefinition = "boolean default false")
-    @NotNull
-    private final Boolean admin = false;
-
-    @ManyToMany
-    private final Set<Post> posts = Collections.emptySet();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "author", orphanRemoval = true)
+    private final List<Post> posts = Collections.emptyList();
 
     // Hibernate requires the existance of a no-argument constructor.
     public User() {
@@ -65,16 +62,8 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @Override
-    public List<SimpleGrantedAuthority> getAuthorities() {
-        final List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>(2);
-
-        authorities.add(new SimpleGrantedAuthority("user"));
-
-        if (admin) {
-            authorities.add(new SimpleGrantedAuthority("admin"));
-        }
-
-        return authorities;
+    public Set<SimpleGrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("user"));
     }
 
     @JsonIgnore

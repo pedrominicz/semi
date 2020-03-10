@@ -2,20 +2,24 @@ package io.github.pedrominicz.semi.model;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Long id = null;
@@ -23,11 +27,13 @@ public class Post {
     @NotNull
     private final String text;
 
-    @ManyToMany
-    private Set<User> moderators = Collections.emptySet();
+    @JoinColumn(name = "author_id")
+    @ManyToOne
+    @NotNull
+    private User author = null;
 
-    @OneToMany
-    private List<Comment> comments = Collections.emptyList();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post", orphanRemoval = true)
+    private final List<Comment> comments = Collections.emptyList();
 
     // Hibernate requires a no-argument constructor.
     public Post() {
@@ -46,19 +52,17 @@ public class Post {
         return text;
     }
 
-    public Set<User> getModerators() {
-        return moderators;
+    @JsonIgnore
+    public User getAuthor() {
+        return author;
     }
 
-    public void setModerators(final Set<User> moderators) {
-        this.moderators = moderators;
+    public void setAuthor(final User author) {
+        this.author = author;
     }
 
     public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(final List<Comment> comments) {
-        this.comments = comments;
-    }
 }

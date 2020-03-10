@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -20,25 +21,23 @@ public class Comment {
     @NotNull
     private final String text;
 
+    @JoinColumn(name = "author_id")
     @ManyToOne
     @NotNull
-    private final User author;
+    private User author = null;
 
+    @JoinColumn(name = "post_id")
     @ManyToOne
     @NotNull
-    private final Post post;
+    private Post post = null;
 
     // Hibernate requires a no-argument constructor.
     public Comment() {
         text = null;
-        author = null;
-        post = null;
     }
 
-    public Comment(final User author, final Post post, @JsonProperty("text") final String text) {
+    public Comment(@JsonProperty("text") final String text) {
         this.text = text;
-        this.author = author;
-        this.post = post;
     }
 
     public Long getId() {
@@ -49,13 +48,22 @@ public class Comment {
         return text;
     }
 
+    @JsonIgnore
     public User getAuthor() {
         return author;
+    }
+
+    public void setAuthor(final User author) {
+        this.author = author;
     }
 
     @JsonIgnore
     public Post getPost() {
         return post;
+    }
+
+    public void setPost(final Post post) {
+        this.post = post;
     }
 
 }

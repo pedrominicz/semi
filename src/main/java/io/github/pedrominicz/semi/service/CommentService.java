@@ -1,6 +1,5 @@
 package io.github.pedrominicz.semi.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,6 @@ public class CommentService {
 
     public Optional<Comment> findById(final Long id) {
         return commentRepository.findById(id);
-    }
-
-    public List<Comment> findAllByPostId(final Long postId) {
-        return commentRepository.findAllByPostId(postId);
     }
 
     public void deleteById(final Long id) {

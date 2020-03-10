@@ -1,9 +1,6 @@
 package io.github.pedrominicz.semi.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,69 +12,56 @@ import io.github.pedrominicz.semi.repository.PostRepository;
 
 @Service
 public class PostService {
-    @Autowired
-    private PostRepository postRepository;
 
     @Autowired
     private CommentService commentService;
 
     @Autowired
-    private UserService userService;
+    private PostRepository postRepository;
 
-    public Post save(final User user, final Post post) {
-        final Set<String> usernames = post.getModerators().stream().map(User::getUsername).collect(Collectors.toSet());
 
-        usernames.add(user.getUsername());
-
-        post.setModerators(userService.findByUsernameIn(usernames));
-
-        return postRepository.save(post);
-    }
-
-    public Comment saveComment(final User user, final Post post, final Comment comment) {
-        return commentService.save(new Comment(user, post, comment.getText()));
-    }
-
-    public Optional<Post> findById(final Long id) {
-        return postRepository.findById(id);
-    }
-
-    public Optional<Post> findByIdWithComments(final Long id) {
-        final List<Comment> comments = commentService.findAllByPostId(id);
-
-        final Optional<Post> post = findById(id);
-
-        post.ifPresent(post_ -> post_.setComments(comments));
-
-        return post;
-    }
-
+    /**
+     * Returns all posts.
+     *
+     * @return the posts
+     */
     public Iterable<Post> findAll() {
         return postRepository.findAll();
     }
 
-	public Boolean deleteCommentById(final User user, final Long id, final Long commentId) {
-        // Verity if the comment exists and belongs to the post.
-        final Comment comment = commentService.findById(commentId).get();
+    /**
+     * Returns a post and all comments that belong to it.
+     *
+     * @param id the ID of the post
+     * @return the post
+     */
+    public Optional<Post> findById(final Long id) {
+        return postRepository.findById(id);
+    }
 
-        final Post post = comment.getPost();
+    /**
+     * Saves a post. In addition to `users`, the post will also belong to the
+     * authenticated user.
+     *
+     * @param post the post to be saved
+     * @return the saved post
+     */
+    public Post save(final Post post) {
+        return postRepository.save(post);
+    }
 
-        if (!post.getId().equals(id)) {
-            return false;
-        }
-
-        // Verify if the authenticated user is authorized to delete the comment.
-        final Set<User> moderators = post.getModerators();
-
-        moderators.add(comment.getAuthor());
-
-        if (!moderators.contains(user)) {
-            return false;
-        }
-
-        commentService.deleteById(commentId);
-
-        return true;
+    /**
+     * Saves a comment.
+     *
+     * @param comment the comment to be saved
+     * @return the saved comment
+     */
+	public Comment saveComment(final Comment comment) {
+		return commentService.save(comment);
 	}
+
+    public void deleteCommentById(final User user, final Long id, final Long commentId) {
+        // Empty.
+    }
 
 }

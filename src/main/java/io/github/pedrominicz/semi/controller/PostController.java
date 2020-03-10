@@ -33,6 +33,7 @@ public class PostController {
      * @return the posts
      */
     @GetMapping
+    @PreAuthorize("permitAll()")
     public Iterable<Post> findAll() {
         return postService.findAll();
     }
@@ -46,8 +47,7 @@ public class PostController {
     @GetMapping(path = "{id}")
     @PreAuthorize("permitAll()")
     public Post findById(@PathVariable("id") final Long id) {
-        return postService.findByIdWithComments(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     /**
@@ -62,7 +62,9 @@ public class PostController {
     public Post save(@RequestBody final Post post) {
         final User user = SecurityUtil.getAuthenticatedUser();
 
-        return postService.save(user, post);
+        post.setAuthor(user);
+
+        return postService.save(post);
     }
 
     /**
@@ -77,9 +79,13 @@ public class PostController {
     public Comment saveComment(@PathVariable("id") final Long id, @RequestBody final Comment comment) {
         final User user = SecurityUtil.getAuthenticatedUser();
 
+        comment.setAuthor(user);
+
         final Post post = postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        return postService.saveComment(user, post, comment);
+        comment.setPost(post);
+
+        return postService.saveComment(comment);
     }
 
     /**
@@ -91,11 +97,7 @@ public class PostController {
     @DeleteMapping(path = "{id}/comment/{commentId}")
     @PreAuthorize("isAuthenticated()")
     public void deleteCommentById(@PathVariable("id") final Long id, @PathVariable("commentId") final Long commentId) {
-        final User user = SecurityUtil.getAuthenticatedUser();
-
-        if (!postService.deleteCommentById(user, id, commentId)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
+        // Empty.
     }
 
 }
