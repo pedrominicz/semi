@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import io.github.pedrominicz.semi.model.Comment;
 import io.github.pedrominicz.semi.model.Post;
+import io.github.pedrominicz.semi.model.PostInterface;
 import io.github.pedrominicz.semi.model.User;
 import io.github.pedrominicz.semi.security.SecurityUtil;
 import io.github.pedrominicz.semi.service.PostService;
@@ -34,7 +35,7 @@ public class PostController {
      */
     @GetMapping
     @PreAuthorize("permitAll()")
-    public Iterable<Post> findAll() {
+    public Iterable<PostInterface> findAll() {
         return postService.findAll();
     }
 

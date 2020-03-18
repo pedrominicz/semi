@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import io.github.pedrominicz.semi.model.Comment;
 import io.github.pedrominicz.semi.model.Post;
+import io.github.pedrominicz.semi.model.PostInterface;
 import io.github.pedrominicz.semi.model.User;
 import io.github.pedrominicz.semi.repository.PostRepository;
 
@@ -25,7 +26,7 @@ public class PostService {
      *
      * @return the posts
      */
-    public Iterable<Post> findAll() {
+    public Iterable<PostInterface> findAll() {
         return postRepository.findAll();
     }
 
