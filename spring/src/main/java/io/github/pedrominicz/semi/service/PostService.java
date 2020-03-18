@@ -41,6 +41,16 @@ public class PostService {
     }
 
     /**
+     * Returns all posts by a given user.
+     *
+     * @param id the ID of the user
+     * @return the posts by the user
+     */
+    public Iterable<PostInterface> findByAuthorId(final Long id) {
+        return postRepository.findByAuthorId(id);
+    }
+
+    /**
      * Saves a post. In addition to `users`, the post will also belong to the
      * authenticated user.
      *

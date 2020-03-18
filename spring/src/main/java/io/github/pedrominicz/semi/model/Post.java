@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -31,6 +32,9 @@ public class Post {
     @ManyToOne
     @NotNull
     private User author = null;
+
+    @ManyToMany
+    private final List<User> moderators = Collections.emptyList();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post", orphanRemoval = true)
     private final List<Comment> comments = Collections.emptyList();
@@ -59,6 +63,14 @@ public class Post {
 
     public void setAuthor(final User author) {
         this.author = author;
+    }
+
+    public List<User> getModerators() {
+        final List<User> moderators = this.moderators;
+
+        moderators.add(author);
+
+        return moderators;
     }
 
     public List<Comment> getComments() {

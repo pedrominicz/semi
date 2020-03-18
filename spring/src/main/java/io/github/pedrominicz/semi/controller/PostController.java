@@ -52,6 +52,18 @@ public class PostController {
     }
 
     /**
+     * Returns all posts by a given user.
+     *
+     * @param id the ID of the user
+     * @return the posts by the user
+     */
+    @GetMapping("user/{id}")
+    @PreAuthorize("permitAll()")
+    public Iterable<PostInterface> findByAuthorId(@PathVariable("id") final Long id) {
+        return postService.findByAuthorId(id);
+    }
+
+    /**
      * Saves a post. In addition to `users`, the post will also belong to the
      * authenticated user.
      *

@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -38,6 +39,9 @@ public class User implements UserDetails {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "author", orphanRemoval = true)
     private final List<Post> posts = Collections.emptyList();
+
+    @ManyToMany(mappedBy = "moderators")
+    private final List<Post> moderatedPosts = Collections.emptyList();
 
     // Hibernate requires the existance of a no-argument constructor.
     public User() {
