@@ -16,7 +16,7 @@ export default {
 <style scoped>
 div {
   background: #f4f4f4;
-  padding: 10px;
+  padding: 1px 10px;
   border-bottom: 1px #ccc dotted;
 }
 </style>

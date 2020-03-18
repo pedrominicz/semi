@@ -6,6 +6,7 @@
 
 <script>
 import Posts from '@/components/Posts'
+import axios from 'axios'
 
 export default {
   name: 'Home',
@@ -14,14 +15,18 @@ export default {
   },
   data () {
     return {
-      posts: [
-        { id: 1, text: 'post a', author: 'user' },
-        { id: 2, text: 'post b', author: 'user' },
-        { id: 3, text: 'post c', author: 'user' }
-      ]
+      posts: []
     }
   },
   methods: {
+  },
+  created () {
+    axios.get('post')
+      .then(response => {
+        console.log(response.data)
+        this.posts = response.data
+      })
+      .catch(error => console.log(error))
   }
 }
 </script>

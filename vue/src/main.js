@@ -5,7 +5,7 @@ import store from './store'
 
 import axios from 'axios'
 
-axios.defaults.baseURL = 'localhost:8081/api'
+axios.defaults.baseURL = 'http://localhost:8081/api'
 
 axios.interceptors.request.use(config => {
   if (store.state.token) {
