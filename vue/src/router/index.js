@@ -19,6 +19,10 @@ const routes = [
     path: '/post/:id',
     name: 'Post',
     component: () => import('../views/Post.vue')
+  },
+  {
+    path: '*',
+    redirect: '/'
   }
 ]
 

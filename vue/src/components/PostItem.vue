@@ -1,7 +1,11 @@
 <template>
   <div>
+    <router-link :to="`/user/${ post.author.id }`">
+      <span class="user">{{ post.author.username }}:</span>
+    </router-link>
+    &#32;
     <router-link :to="`/post/${ post.id }`">
-      <span class="user">{{ post.author.username }}: </span>{{ post.text }}
+      {{ post.text }}
     </router-link>
   </div>
 </template>
@@ -18,7 +22,7 @@ export default {
 <style scoped>
 a {
   color: inherit;
-  display: block;
+  display: inline-block;
   text-decoration: none;
 }
 
