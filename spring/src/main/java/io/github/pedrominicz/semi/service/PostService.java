@@ -23,7 +23,6 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-
     /**
      * Returns all posts.
      *
@@ -46,11 +45,21 @@ public class PostService {
     /**
      * Returns all posts by a given user.
      *
-     * @param id the ID of the user
+     * @param username the name of the user
      * @return the posts by the user
      */
-    public List<Post> findByAuthorId(final Long id) {
-        return postRepository.findByAuthorId(id);
+    public List<Post> findByAuthorUsername(final String username) {
+        return postRepository.findByAuthorUsername(username);
+    }
+
+    /**
+     * Returns all posts in a given category.
+     *
+     * @param category the category name
+     * @return the posts in the category
+     */
+    public List<Post> findByCategory(final String category) {
+        return postRepository.findByCategory(category);
     }
 
     /**
@@ -72,9 +81,9 @@ public class PostService {
      * @param comment the comment to be saved
      * @return the saved comment
      */
-	public Comment saveComment(final Comment comment) {
-		return commentService.save(comment);
-	}
+    public Comment saveComment(final Comment comment) {
+        return commentService.save(comment);
+    }
 
     public void deleteCommentById(final User user, final Long id, final Long commentId) {
         // TODO.

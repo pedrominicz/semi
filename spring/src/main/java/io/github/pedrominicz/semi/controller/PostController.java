@@ -59,14 +59,27 @@ public class PostController {
     /**
      * Returns all posts by a given user.
      *
-     * @param id the ID of the user
+     * @param username the name of the user
      * @return the posts by the user
      */
-    @GetMapping("user/{id}")
+    @GetMapping("user/{username}")
     @JsonView(View.Post.class)
     @PreAuthorize("permitAll()")
-    public List<Post> findByAuthorId(@PathVariable("id") final Long id) {
-        return postService.findByAuthorId(id);
+    public List<Post> findByAuthorId(@PathVariable("username") final String username) {
+        return postService.findByAuthorUsername(username);
+    }
+
+    /**
+     * Returns all posts in a given category.
+     *
+     * @param category the category name
+     * @return the posts in the category
+     */
+    @GetMapping("category/{category}")
+    @JsonView(View.Post.class)
+    @PreAuthorize("permitAll()")
+    public List<Post> findByCategory(@PathVariable("category") final String category) {
+        return postService.findByCategory(category);
     }
 
     /**

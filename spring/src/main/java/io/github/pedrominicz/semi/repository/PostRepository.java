@@ -10,7 +10,10 @@ import io.github.pedrominicz.semi.model.Post;
 
 public interface PostRepository extends CrudRepository<Post, Long> {
 
-    @Query("SELECT p FROM User u JOIN u.posts p WHERE u.id = :id")
-    List<Post> findByAuthorId(@Param("id") final Long id);
+    @Query("SELECT p FROM Post p JOIN p.author a WHERE a.username = :username")
+    List<Post> findByAuthorUsername(@Param("username") final String username);
+
+    @Query("SELECT p FROM Post p JOIN p.categories c WHERE c.category = :category")
+    List<Post> findByCategory(@Param("category") final String category);
 
 }
