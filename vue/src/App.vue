@@ -28,5 +28,6 @@ body {
   background: #ccc;
   color: #333;
   font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.4;
 }
 </style>
