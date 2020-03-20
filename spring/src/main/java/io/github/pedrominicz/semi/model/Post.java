@@ -41,6 +41,10 @@ public class Post {
         this.categories = categories;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getText() {
         return text;
     }

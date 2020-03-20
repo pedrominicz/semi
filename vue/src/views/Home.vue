@@ -1,7 +1,5 @@
 <template>
-  <div id="home">
-    <Posts :posts="posts" />
-  </div>
+  <Posts :posts="posts" />
 </template>
 
 <script>
@@ -18,14 +16,9 @@ export default {
       posts: []
     }
   },
-  methods: {
-  },
   created () {
     axios.get('post')
-      .then(response => {
-        console.log(response.data)
-        this.posts = response.data
-      })
+      .then(response => { this.posts = response.data })
       .catch(error => console.log(error))
   }
 }

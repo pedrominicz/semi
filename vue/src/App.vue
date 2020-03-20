@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Header from './components/layout/Header'
+import Header from './components/Header'
 
 export default {
   name: 'App',
@@ -25,22 +25,8 @@ export default {
 }
 
 body {
-  background: #ddd;
+  background: #ccc;
   color: #333;
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.4;
-}
-
-button {
-  background: #555;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  padding: 7px 20px;
-}
-
-button:hover {
-  background: #666;
 }
 </style>

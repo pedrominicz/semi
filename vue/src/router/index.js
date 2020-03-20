@@ -1,24 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Read from '../views/Read.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: Read
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
+    path: '/user/:name',
+    component: Read,
+    props: (route) => ({ path: `user/${route.params.name}` })
   },
   {
-    path: '/post/:id',
-    name: 'Post',
-    component: () => import('../views/Post.vue')
+    path: '/category/:name',
+    component: Read,
+    props: (route) => ({ path: `category/${route.params.name}` })
   },
   {
     path: '*',
