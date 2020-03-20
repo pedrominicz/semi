@@ -1,5 +1,7 @@
 package io.github.pedrominicz.semi.controller;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonView;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +65,7 @@ public class PostController {
     @GetMapping("user/{id}")
     @JsonView(View.Post.class)
     @PreAuthorize("permitAll()")
-    public Iterable<Post> findByAuthorId(@PathVariable("id") final Long id) {
+    public List<Post> findByAuthorId(@PathVariable("id") final Long id) {
         return postService.findByAuthorId(id);
     }
 

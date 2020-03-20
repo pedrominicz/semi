@@ -2,7 +2,6 @@ package io.github.pedrominicz.semi.model;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -41,10 +39,7 @@ public class User implements UserDetails {
     private final String password;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "author", orphanRemoval = true)
-    private final List<Post> posts = Collections.emptyList();
-
-    @ManyToMany(mappedBy = "moderators")
-    private final List<Post> moderatedPosts = Collections.emptyList();
+    private final List<Post> posts = null;
 
     // Hibernate requires the existance of a no-argument constructor.
     public User() {
@@ -70,8 +65,8 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @Override
-    public Set<SimpleGrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("user"));
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("user"));
     }
 
     @JsonIgnore

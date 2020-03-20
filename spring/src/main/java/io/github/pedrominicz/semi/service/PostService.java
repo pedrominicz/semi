@@ -1,5 +1,6 @@
 package io.github.pedrominicz.semi.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import io.github.pedrominicz.semi.repository.PostRepository;
 
 @Service
 public class PostService {
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private CommentService commentService;
@@ -45,7 +49,7 @@ public class PostService {
      * @param id the ID of the user
      * @return the posts by the user
      */
-    public Iterable<Post> findByAuthorId(final Long id) {
+    public List<Post> findByAuthorId(final Long id) {
         return postRepository.findByAuthorId(id);
     }
 
@@ -57,6 +61,8 @@ public class PostService {
      * @return the saved post
      */
     public Post save(final Post post) {
+        post.setCategories(categoryService.findByCategoryIn(post.getCategories()));
+
         return postRepository.save(post);
     }
 
@@ -71,7 +77,7 @@ public class PostService {
 	}
 
     public void deleteCommentById(final User user, final Long id, final Long commentId) {
-        // Empty.
+        // TODO.
     }
 
 }

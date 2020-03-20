@@ -1,0 +1,1 @@
+INSERT INTO category (category) VALUES ('film'), ('health'), ('math'), ('music');

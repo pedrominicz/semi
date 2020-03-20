@@ -1,7 +1,7 @@
 package io.github.pedrominicz.semi.repository;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -11,6 +11,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findByUsername(final String username);
 
-    Set<User> findByUsernameIn(final Set<String> usernames);
+    List<User> findByUsernameIn(final List<String> usernames);
 
 }

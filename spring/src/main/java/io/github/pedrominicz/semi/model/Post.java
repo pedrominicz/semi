@@ -1,6 +1,5 @@
 package io.github.pedrominicz.semi.model;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,20 +36,20 @@ public class Post {
     @NotNull
     private User author = null;
 
-    @JsonView(View.Post.class)
     @ManyToMany
-    private final List<User> moderators = Collections.emptyList();
+    private List<Category> categories;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post", orphanRemoval = true)
-    private final List<Comment> comments = Collections.emptyList();
+    private final List<Comment> comments = null;
 
     // Hibernate requires a no-argument constructor.
     public Post() {
         text = null;
     }
 
-    public Post(@JsonProperty("text") final String text) {
+    public Post(@JsonProperty("text") final String text, @JsonProperty("categories") final List<Category> categories) {
         this.text = text;
+        this.categories = categories;
     }
 
     public Long getId() {
@@ -70,12 +69,12 @@ public class Post {
         this.author = author;
     }
 
-    public List<User> getModerators() {
-        final List<User> moderators = this.moderators;
+    public List<Category> getCategories() {
+        return categories;
+    }
 
-        moderators.add(author);
-
-        return moderators;
+    public void setCategories(final List<Category> categories) {
+        this.categories = categories;
     }
 
     public List<Comment> getComments() {
