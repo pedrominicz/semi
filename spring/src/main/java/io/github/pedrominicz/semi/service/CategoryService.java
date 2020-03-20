@@ -16,8 +16,7 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public List<Category> findByCategoryIn(final List<Category> categories) {
-        return categoryRepository
-                .findByCategoryIn(categories.stream().map(Category::getCategory).collect(Collectors.toList()));
+        return categoryRepository.findByNameIn(categories.stream().map(Category::getName).collect(Collectors.toList()));
     }
 
 }

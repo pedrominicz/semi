@@ -8,6 +8,6 @@ import io.github.pedrominicz.semi.model.Category;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
 
-    List<Category> findByCategoryIn(final List<String> categories);
+    List<Category> findByNameIn(final List<String> names);
 
 }

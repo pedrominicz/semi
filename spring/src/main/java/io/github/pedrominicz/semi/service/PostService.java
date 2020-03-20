@@ -50,11 +50,11 @@ public class PostService {
     /**
      * Returns all posts in a given category.
      *
-     * @param category the category name
+     * @param name the category name
      * @return the posts in the category
      */
-    public List<Post> findByCategory(final String category) {
-        return postRepository.findByCategory(category);
+    public List<Post> findByCategoryName(final String name) {
+        return postRepository.findByCategoryName(name);
     }
 
     /**

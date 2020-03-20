@@ -9,9 +9,9 @@
     <p>{{ post.text }}</p>
 
     <footer>
-      <span v-for="category in post.categories" :key="category.category">
-        <router-link :to="`/category/${ category.category }`">
-          {{ category.category }}
+      <span v-for="category in post.categories" :key="category.name">
+        <router-link :to="`/category/${ category.name }`">
+          {{ category.name }}
         </router-link>
       </span>
     </footer>

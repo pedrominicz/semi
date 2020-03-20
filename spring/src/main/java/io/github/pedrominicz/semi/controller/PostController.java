@@ -65,13 +65,13 @@ public class PostController {
     /**
      * Returns all posts in a given category.
      *
-     * @param category the category name
+     * @param name the category name
      * @return the posts in the category
      */
-    @GetMapping("category/{category}")
+    @GetMapping("category/{name}")
     @PreAuthorize("permitAll()")
-    public List<Post> findByCategory(@PathVariable("category") final String category) {
-        return postService.findByCategory(category);
+    public List<Post> findByCategoryName(@PathVariable("name") final String name) {
+        return postService.findByCategoryName(name);
     }
 
     /**

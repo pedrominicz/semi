@@ -22,22 +22,22 @@ public class Category {
 
     @Column(length = 16, unique = true)
     @NotNull
-    private final String category;
+    private final String name;
 
     @ManyToMany(mappedBy = "categories")
     private final List<Post> posts = null;
 
     // Hibernate requires a no-argument constructor.
     public Category() {
-        category = null;
+        name = null;
     }
 
-    public Category(@JsonProperty("category") final String category) {
-        this.category = category;
+    public Category(@JsonProperty("name") final String name) {
+        this.name = name;
     }
 
-    public String getCategory() {
-        return category;
+    public String getName() {
+        return name;
     }
 
     @JsonIgnore
