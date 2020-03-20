@@ -17,22 +17,27 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(View.Post.class)
     private final Long id = null;
 
+    @JsonView(View.Post.class)
     @NotNull
     private final String text;
 
     @JoinColumn(name = "author_id")
+    @JsonView(View.Post.class)
     @ManyToOne
     @NotNull
     private User author = null;
 
+    @JsonView(View.Post.class)
     @ManyToMany
     private final List<User> moderators = Collections.emptyList();
 

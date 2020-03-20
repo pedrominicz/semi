@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,9 +29,11 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(View.Post.class)
     private final Long id = null;
 
     @Column(length = 16, unique = true)
+    @JsonView(View.Post.class)
     @NotNull
     private final String username;
 
@@ -59,6 +62,7 @@ public class User implements UserDetails {
         return username;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;

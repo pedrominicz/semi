@@ -1,5 +1,7 @@
 package io.github.pedrominicz.semi.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import io.github.pedrominicz.semi.model.Comment;
 import io.github.pedrominicz.semi.model.Post;
-import io.github.pedrominicz.semi.model.PostInterface;
 import io.github.pedrominicz.semi.model.User;
+import io.github.pedrominicz.semi.model.View;
 import io.github.pedrominicz.semi.security.SecurityUtil;
 import io.github.pedrominicz.semi.service.PostService;
 
@@ -34,8 +36,9 @@ public class PostController {
      * @return the posts
      */
     @GetMapping
+    @JsonView(View.Post.class)
     @PreAuthorize("permitAll()")
-    public Iterable<PostInterface> findAll() {
+    public Iterable<Post> findAll() {
         return postService.findAll();
     }
 
@@ -58,8 +61,9 @@ public class PostController {
      * @return the posts by the user
      */
     @GetMapping("user/{id}")
+    @JsonView(View.Post.class)
     @PreAuthorize("permitAll()")
-    public Iterable<PostInterface> findByAuthorId(@PathVariable("id") final Long id) {
+    public Iterable<Post> findByAuthorId(@PathVariable("id") final Long id) {
         return postService.findByAuthorId(id);
     }
 
