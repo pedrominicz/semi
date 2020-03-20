@@ -27,11 +27,9 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(View.Post.class)
     private final Long id = null;
 
     @Column(length = 16, unique = true)
-    @JsonView(View.Post.class)
     @NotNull
     private final String username;
 
@@ -52,6 +50,12 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    @JsonIgnore
+    public Long getId() {
+        return id;
+    }
+
+    @JsonView(Post.Summary.class)
     @Override
     public String getUsername() {
         return username;

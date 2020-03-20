@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import io.github.pedrominicz.semi.model.Comment;
 import io.github.pedrominicz.semi.model.Post;
-import io.github.pedrominicz.semi.model.User;
 import io.github.pedrominicz.semi.repository.PostRepository;
 
 @Service
@@ -83,10 +82,6 @@ public class PostService {
      */
     public Comment saveComment(final Comment comment) {
         return commentService.save(comment);
-    }
-
-    public void deleteCommentById(final User user, final Long id, final Long commentId) {
-        // TODO.
     }
 
 }

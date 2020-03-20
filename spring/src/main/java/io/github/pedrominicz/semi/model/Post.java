@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -23,15 +22,12 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(View.Post.class)
     private final Long id = null;
 
-    @JsonView(View.Post.class)
     @NotNull
     private final String text;
 
     @JoinColumn(name = "author_id")
-    @JsonView(View.Post.class)
     @ManyToOne
     @NotNull
     private User author = null;
@@ -52,15 +48,17 @@ public class Post {
         this.categories = categories;
     }
 
+    @JsonView(Summary.class)
     public Long getId() {
         return id;
     }
 
+    @JsonView(Summary.class)
     public String getText() {
         return text;
     }
 
-    @JsonIgnore
+    @JsonView(Summary.class)
     public User getAuthor() {
         return author;
     }
@@ -79,6 +77,12 @@ public class Post {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public interface Summary {
+
+        // Empty.
+
     }
 
 }
