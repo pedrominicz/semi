@@ -2,8 +2,6 @@ package io.github.pedrominicz.semi.controller;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import io.github.pedrominicz.semi.model.Comment;
 import io.github.pedrominicz.semi.model.Post;
 import io.github.pedrominicz.semi.model.User;
 import io.github.pedrominicz.semi.security.SecurityUtil;
@@ -36,7 +33,6 @@ public class PostController {
      * @return the posts
      */
     @GetMapping
-    @JsonView(Post.Summary.class)
     @PreAuthorize("permitAll()")
     public Iterable<Post> findAll() {
         return postService.findAll();
@@ -57,14 +53,13 @@ public class PostController {
     /**
      * Returns all posts by a given user.
      *
-     * @param username the name of the user
+     * @param name the name of the user
      * @return the posts by the user
      */
-    @GetMapping("user/{username}")
-    @JsonView(Post.Summary.class)
+    @GetMapping("user/{name}")
     @PreAuthorize("permitAll()")
-    public List<Post> findByAuthorId(@PathVariable("username") final String username) {
-        return postService.findByAuthorUsername(username);
+    public List<Post> findByAuthorName(@PathVariable("name") final String name) {
+        return postService.findByAuthorName(name);
     }
 
     /**
@@ -74,7 +69,6 @@ public class PostController {
      * @return the posts in the category
      */
     @GetMapping("category/{category}")
-    @JsonView(Post.Summary.class)
     @PreAuthorize("permitAll()")
     public List<Post> findByCategory(@PathVariable("category") final String category) {
         return postService.findByCategory(category);
@@ -88,7 +82,6 @@ public class PostController {
      * @return the saved post
      */
     @PostMapping
-    @JsonView(Post.Summary.class)
     @PreAuthorize("isAuthenticated()")
     public Post save(@RequestBody final Post post) {
         final User user = SecurityUtil.getAuthenticatedUser();
@@ -96,27 +89,6 @@ public class PostController {
         post.setAuthor(user);
 
         return postService.save(post);
-    }
-
-    /**
-     * Saves a comment.
-     *
-     * @param id      the ID of the post the comment will belong to
-     * @param comment the comment to be saved
-     * @return the saved comment
-     */
-    @PostMapping(path = "{id}/comment")
-    @PreAuthorize("isAuthenticated()")
-    public Comment saveComment(@PathVariable("id") final Long id, @RequestBody final Comment comment) {
-        final User user = SecurityUtil.getAuthenticatedUser();
-
-        comment.setAuthor(user);
-
-        final Post post = postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        comment.setPost(post);
-
-        return postService.saveComment(comment);
     }
 
 }

@@ -9,8 +9,8 @@ import io.github.pedrominicz.semi.model.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    Optional<User> findByUsername(final String username);
+    Optional<User> findByName(final String name);
 
-    List<User> findByUsernameIn(final List<String> usernames);
+    List<User> findByNameIn(final List<String> names);
 
 }

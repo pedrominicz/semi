@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.github.pedrominicz.semi.model.Comment;
 import io.github.pedrominicz.semi.model.Post;
 import io.github.pedrominicz.semi.repository.PostRepository;
 
@@ -15,9 +14,6 @@ public class PostService {
 
     @Autowired
     private CategoryService categoryService;
-
-    @Autowired
-    private CommentService commentService;
 
     @Autowired
     private PostRepository postRepository;
@@ -44,11 +40,11 @@ public class PostService {
     /**
      * Returns all posts by a given user.
      *
-     * @param username the name of the user
+     * @param name the name of the user
      * @return the posts by the user
      */
-    public List<Post> findByAuthorUsername(final String username) {
-        return postRepository.findByAuthorUsername(username);
+    public List<Post> findByAuthorName(final String name) {
+        return postRepository.findByAuthorName(name);
     }
 
     /**
@@ -72,16 +68,6 @@ public class PostService {
         post.setCategories(categoryService.findByCategoryIn(post.getCategories()));
 
         return postRepository.save(post);
-    }
-
-    /**
-     * Saves a comment.
-     *
-     * @param comment the comment to be saved
-     * @return the saved comment
-     */
-    public Comment saveComment(final Comment comment) {
-        return commentService.save(comment);
     }
 
 }

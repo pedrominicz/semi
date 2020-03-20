@@ -21,16 +21,16 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public Optional<User> findByUsername(final String username) {
-        return userRepository.findByUsername(username);
+    public Optional<User> findByName(final String name) {
+        return userRepository.findByName(name);
     }
 
-    public List<User> findByUsernameIn(final List<String> usernames) {
-        return userRepository.findByUsernameIn(usernames);
+    public List<User> findByNameIn(final List<String> names) {
+        return userRepository.findByNameIn(names);
     }
 
     @Override
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        return findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    public UserDetails loadUserByUsername(final String name) throws UsernameNotFoundException {
+        return findByName(name).orElseThrow(() -> new UsernameNotFoundException(name));
     }
 }

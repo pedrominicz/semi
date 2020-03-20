@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +30,7 @@ public class User implements UserDetails {
 
     @Column(length = 16, unique = true)
     @NotNull
-    private final String username;
+    private final String name;
 
     @NotNull
     private final String password;
@@ -41,24 +40,23 @@ public class User implements UserDetails {
 
     // Hibernate requires the existance of a no-argument constructor.
     public User() {
-        username = null;
+        name = null;
         password = null;
     }
 
-    public User(@JsonProperty("username") final String username, @JsonProperty("password") final String password) {
-        this.username = username;
+    public User(@JsonProperty("name") final String name, @JsonProperty("password") final String password) {
+        this.name = name;
         this.password = password;
     }
 
-    @JsonIgnore
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    @JsonView(Post.Summary.class)
+    @JsonIgnore
     @Override
     public String getUsername() {
-        return username;
+        return getName();
     }
 
     @JsonIgnore

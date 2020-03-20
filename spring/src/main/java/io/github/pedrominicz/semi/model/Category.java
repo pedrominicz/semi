@@ -34,10 +34,6 @@ public class Category {
         this.category = category;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getCategory() {
         return category;
     }

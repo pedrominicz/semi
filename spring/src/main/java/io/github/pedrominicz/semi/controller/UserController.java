@@ -32,7 +32,7 @@ public class UserController {
     @PostMapping(path = "login")
     @PreAuthorize("permitAll()")
     public String login(@RequestBody final User user) throws JsonProcessingException, AuthenticationException {
-        final Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(),
+        final Authentication authentication = new UsernamePasswordAuthenticationToken(user.getName(),
                 user.getPassword());
 
         return JwtUtil.generateToken((User) authenticationManager.authenticate(authentication).getPrincipal());
