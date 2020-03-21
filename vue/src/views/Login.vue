@@ -1,9 +1,11 @@
 <template>
-  <form @submit.prevent="submit">
-    <input type="text" placeholder="name" required v-model="name" autofocus>
-    <input type="text" placeholder="password" required v-model="password">
-    <button type="submit">{{ path }}</button>
-  </form>
+  <div>
+    <form @submit.prevent="submit">
+      <input type="text" placeholder="name" required v-model="name" autofocus>
+      <input type="password" placeholder="password" required v-model="password">
+      <button type="submit">{{ path }}</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -32,4 +34,23 @@ export default {
 </script>
 
 <style scoped>
+button, input {
+  display: block;
+  margin: 5px auto;
+}
+
+div {
+  background: #f4f4f4;
+  margin: 50px auto;
+  max-width: 300px;
+  min-height: 250px;
+  position: relative;
+}
+
+form {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
