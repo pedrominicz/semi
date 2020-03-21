@@ -9,7 +9,8 @@ axios.defaults.baseURL = 'http://localhost:8081/api'
 
 axios.interceptors.request.use(config => {
   if (store.state.token) {
-    config.headers.Authorization = store.state.token
+    console.log(store.state.token)
+    config.headers.Authorization = `Bearer ${store.state.token}`
   }
   return config
 })

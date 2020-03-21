@@ -1,25 +1,28 @@
 <template>
-  <Posts :posts="posts" />
+  <div>
+    <div v-for="post in posts" :key="post.id">
+      <Post :post="post" />
+    </div>
+  </div>
 </template>
 
 <script>
-import Posts from '@/components/Posts'
+import Post from '@/components/Post'
 import axios from 'axios'
+
+function update (path = '') {
+  axios.get(`post/${path.substring(1)}`)
+    .then(response => { this.posts = response.data })
+    .catch(error => console.log(error))
+}
 
 export default {
   name: 'Home',
-  components: {
-    Posts
-  },
+  components: { Post },
   data () {
-    return {
-      posts: []
-    }
+    return { posts: [] }
   },
-  created () {
-    axios.get('post')
-      .then(response => { this.posts = response.data })
-      .catch(error => console.log(error))
-  }
+  created: update,
+  watch: { '$route.path': update }
 }
 </script>
