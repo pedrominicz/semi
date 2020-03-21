@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import io.github.pedrominicz.semi.model.Category;
 import io.github.pedrominicz.semi.model.Post;
 import io.github.pedrominicz.semi.model.User;
 import io.github.pedrominicz.semi.security.SecurityUtil;
@@ -60,6 +61,17 @@ public class PostController {
     @PreAuthorize("permitAll()")
     public List<Post> findByAuthorName(@PathVariable("name") final String name) {
         return postService.findByAuthorName(name);
+    }
+
+    /**
+     * Returns all categories.
+     *
+     * @return all the categories
+     */
+    @GetMapping("category")
+    @PreAuthorize("permitAll()")
+    public Iterable<Category> findAllCategories() {
+        return postService.findAllCategories();
     }
 
     /**

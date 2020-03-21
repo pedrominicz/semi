@@ -2,10 +2,12 @@ package io.github.pedrominicz.semi.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.github.pedrominicz.semi.model.Category;
 import io.github.pedrominicz.semi.model.Post;
 import io.github.pedrominicz.semi.repository.PostRepository;
 
@@ -48,6 +50,15 @@ public class PostService {
     }
 
     /**
+     * Returns all categories.
+     *
+     * @return all the categories
+     */
+    public Iterable<Category> findAllCategories() {
+        return categoryService.findAll();
+    }
+
+    /**
      * Returns all posts in a given category.
      *
      * @param name the category name
@@ -65,7 +76,10 @@ public class PostService {
      * @return the saved post
      */
     public Post save(final Post post) {
-        post.setCategories(categoryService.findByCategoryIn(post.getCategories()));
+        final List<Category> categories = post.getCategories();
+
+        post.setCategories(categoryService
+                .findByCategoryIn(categories.stream().map(Category::getName).collect(Collectors.toList())));
 
         return postRepository.save(post);
     }

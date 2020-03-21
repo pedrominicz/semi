@@ -1,7 +1,6 @@
 package io.github.pedrominicz.semi.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,12 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Category> findByCategoryIn(final List<Category> categories) {
-        return categoryRepository.findByNameIn(categories.stream().map(Category::getName).collect(Collectors.toList()));
+    public Iterable<Category> findAll() {
+        return categoryRepository.findAll();
+    }
+
+    public List<Category> findByCategoryIn(final List<String> names) {
+        return categoryRepository.findByNameIn(names);
     }
 
 }
