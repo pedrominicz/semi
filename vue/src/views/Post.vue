@@ -30,6 +30,9 @@ export default {
     }
   },
   created () {
+    if (!this.$store.getters.isLogged) {
+      this.$router.push('/')
+    }
     axios.get('post/category')
       .then(response => { this.categories = response.data })
       .catch(error => console.log(error))
