@@ -2,6 +2,7 @@
   <header>
     <router-link class="title" to="/">semi</router-link>
     <div v-if="$store.getters.isLogged">
+      <router-link to="/category">category</router-link>
       <router-link to="/post">post</router-link>
       <router-link to="#" @click.native="$store.dispatch('logout')">
         logout

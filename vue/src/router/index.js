@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import Category from '../views/Category.vue'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Post from '../views/Post.vue'
@@ -31,6 +32,10 @@ const routes = [
   {
     path: '/post',
     component: Post
+  },
+  {
+    path: '/category',
+    component: Category
   },
   {
     path: '*',

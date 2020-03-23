@@ -1,14 +1,8 @@
 <template>
   <div>
     <form @submit.prevent="submit">
-      <input type="text" placeholder="text" required v-model="text" autofocus>
-      <span v-for="category in categories" :key="category.name">
-        <input type="checkbox" :value="category.name" v-model="selected">
-        &nbsp;
-        <label>{{ category.name }}</label>
-        <br>
-      </span>
-      <button type="submit">post</button>
+      <input type="text" placeholder="name" required v-model="name" autofocus>
+      <button type="submit">save category</button>
     </form>
   </div>
 </template>
@@ -19,12 +13,11 @@ import axios from 'axios'
 export default {
   name: 'Post',
   data () {
-    return { text: undefined, categories: [], selected: [] }
+    return { name: undefined }
   },
   methods: {
     submit () {
-      const categories = this.selected.map(name => ({ name: name }))
-      axios.post('post', { text: this.text, categories: categories })
+      axios.post('post/category', { name: this.name })
         .then(response => { this.$router.push('/') })
         .catch(error => console.log(error))
     }
@@ -33,9 +26,6 @@ export default {
     if (!this.$store.getters.isLogged) {
       this.$router.push('/')
     }
-    axios.get('post/category')
-      .then(response => { this.categories = response.data })
-      .catch(error => console.log(error))
   }
 }
 </script>
@@ -49,7 +39,7 @@ button {
 div {
   background: #f4f4f4;
   margin: 50px auto;
-  max-width: 600px;
+  max-width: 300px;
   min-height: 250px;
   position: relative;
 }
@@ -68,9 +58,5 @@ input {
 
 input[type=text] {
   width: 100%;
-}
-
-input[type=checkbox] {
-  border: solid gray;
 }
 </style>
