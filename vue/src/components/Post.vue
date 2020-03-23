@@ -4,6 +4,12 @@
       <router-link :to="`/user/${ post.author.name }`">
         {{ post.author.name }}
       </router-link>
+
+      <div v-if="$store.getters.isAdmin">
+        <router-link to="#" class="delete" @click.native="deletePost()">
+          delete
+        </router-link>
+      </div>
     </header>
 
     <p>{{ post.text }}</p>
@@ -19,9 +25,18 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Post',
-  props: ['post']
+  props: ['post'],
+  methods: {
+    deletePost () {
+      axios.delete(`post/${this.post.id}`)
+        .then(response => { this.$emit('deleted', this.post.id) })
+        .catch(error => this.$router.push(`/error/${error}`))
+    }
+  }
 }
 </script>
 
@@ -42,6 +57,18 @@ article {
   display: block;
   padding: 1px 10px;
   text-decoration: none;
+}
+
+.delete {
+  color: #d40000;
+}
+
+.delete:hover {
+  color: #940000;
+}
+
+div {
+  float: right;
 }
 
 footer {

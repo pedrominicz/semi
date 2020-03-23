@@ -6,7 +6,7 @@
         category
       </router-link>
       <router-link to="/post">post</router-link>
-      <router-link to="#" @click.native="$store.dispatch('logout')">
+      <router-link to="/" @click.native="$store.dispatch('logout')">
         logout
       </router-link>
     </div>

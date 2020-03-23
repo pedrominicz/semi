@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="post in posts" :key="post.id">
-      <Post :post="post" />
+      <Post :post="post" @deleted="deletePost" />
     </div>
   </div>
 </template>
@@ -23,6 +23,11 @@ export default {
     return { posts: [] }
   },
   created: update,
+  methods: {
+    deletePost (id) {
+      this.posts = this.posts.filter(post => post.id !== id)
+    }
+  },
   watch: { '$route.path': update }
 }
 </script>
