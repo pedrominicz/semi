@@ -109,7 +109,7 @@ public class PostController {
      * @return the saved category
      */
     @PostMapping("category")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     public Category saveCategory(@RequestBody final Category category) {
         return postService.saveCategory(category);
     }

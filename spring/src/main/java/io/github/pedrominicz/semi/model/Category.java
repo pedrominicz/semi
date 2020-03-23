@@ -1,5 +1,6 @@
 package io.github.pedrominicz.semi.model;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -25,7 +26,7 @@ public class Category {
     private final String name;
 
     @ManyToMany(mappedBy = "categories")
-    private final List<Post> posts = null;
+    private final List<Post> posts = Collections.emptyList();
 
     // Hibernate requires a no-argument constructor.
     public Category() {

@@ -1,5 +1,6 @@
 package io.github.pedrominicz.semi.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,8 +36,12 @@ public class User implements UserDetails {
     @NotNull
     private final String password;
 
+    @Column(columnDefinition = "boolean default false")
+    @NotNull
+    private final Boolean admin = false;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "author", orphanRemoval = true)
-    private final List<Post> posts = null;
+    private final List<Post> posts = Collections.emptyList();
 
     // Hibernate requires the existance of a no-argument constructor.
     public User() {
@@ -65,10 +70,22 @@ public class User implements UserDetails {
         return password;
     }
 
+    public Boolean getAdmin() {
+        return admin;
+    }
+
     @JsonIgnore
     @Override
     public List<SimpleGrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("user"));
+        final List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>(2);
+
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+        if (admin) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+
+        return authorities;
     }
 
     @JsonIgnore

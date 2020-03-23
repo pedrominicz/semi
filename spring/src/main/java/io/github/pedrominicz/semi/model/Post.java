@@ -1,5 +1,6 @@
 package io.github.pedrominicz.semi.model;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -31,7 +32,7 @@ public class Post {
 
     @JoinTable(name = "post_category", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     @ManyToMany
-    private List<Category> categories;
+    private List<Category> categories = Collections.emptyList();
 
     // Hibernate requires a no-argument constructor.
     public Post() {
