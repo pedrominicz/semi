@@ -69,8 +69,7 @@ public class PostService {
     }
 
     /**
-     * Saves a post. In addition to `users`, the post will also belong to the
-     * authenticated user.
+     * Saves a post. The post will also belong to the authenticated user.
      *
      * @param post the post to be saved
      * @return the saved post
@@ -82,6 +81,16 @@ public class PostService {
                 .findByCategoryIn(categories.stream().map(Category::getName).collect(Collectors.toList())));
 
         return postRepository.save(post);
+    }
+
+    /**
+     * Saves a category.
+     *
+     * @param category the category to be saved
+     * @return the saved category
+     */
+    public Category saveCategory(final Category category) {
+        return categoryService.save(category);
     }
 
 }

@@ -87,8 +87,7 @@ public class PostController {
     }
 
     /**
-     * Saves a post. In addition to `users`, the post will also belong to the
-     * authenticated user.
+     * Saves a post. The post will also belong to the authenticated user.
      *
      * @param post the post to be saved
      * @return the saved post
@@ -101,6 +100,18 @@ public class PostController {
         post.setAuthor(user);
 
         return postService.save(post);
+    }
+
+    /**
+     * Saves a category.
+     *
+     * @param category the category to be saved
+     * @return the saved category
+     */
+    @PostMapping("category")
+    @PreAuthorize("isAuthenticated()")
+    public Category saveCategory(@RequestBody final Category category) {
+        return postService.saveCategory(category);
     }
 
 }

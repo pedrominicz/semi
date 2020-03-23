@@ -22,4 +22,8 @@ public class CategoryService {
         return categoryRepository.findByNameIn(names);
     }
 
+    public Category save(final Category category) {
+        return categoryRepository.save(category);
+    }
+
 }
