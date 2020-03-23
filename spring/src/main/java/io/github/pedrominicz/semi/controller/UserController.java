@@ -29,7 +29,7 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping(path = "login")
+    @PostMapping("login")
     @PreAuthorize("permitAll()")
     public UserWithToken login(@RequestBody final User user) throws JsonProcessingException, AuthenticationException {
         final Authentication authentication = new UsernamePasswordAuthenticationToken(user.getName(),
@@ -42,7 +42,7 @@ public class UserController {
         return new UserWithToken(authenticatedUser, token);
     }
 
-    @PostMapping(path = "register")
+    @PostMapping("register")
     @PreAuthorize("permitAll()")
     public UserWithToken register(@RequestBody final User user)
             throws JsonProcessingException, AuthenticationException {

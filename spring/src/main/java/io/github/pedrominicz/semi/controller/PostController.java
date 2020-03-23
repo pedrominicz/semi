@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +46,7 @@ public class PostController {
      * @param id the ID of the post
      * @return the post
      */
-    @GetMapping(path = "{id}")
+    @GetMapping("{id}")
     @PreAuthorize("permitAll()")
     public Post findById(@PathVariable("id") final Long id) {
         return postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -112,6 +113,17 @@ public class PostController {
     @PreAuthorize("hasRole('ADMIN')")
     public Category saveCategory(@RequestBody final Category category) {
         return postService.saveCategory(category);
+    }
+
+    /**
+     * Deletes a post.
+     *
+     * @param id the ID of the post
+     */
+    @DeleteMapping(path = "{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteById(@PathVariable("id") final Long id) {
+        postService.deleteById(id);
     }
 
 }

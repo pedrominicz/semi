@@ -93,4 +93,13 @@ public class PostService {
         return categoryService.save(category);
     }
 
+    /**
+     * Deletes a post.
+     *
+     * @param id the ID of the post
+     */
+    public void deleteById(final Long id) {
+        postRepository.deleteById(id);
+    }
+
 }
