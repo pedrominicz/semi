@@ -19,11 +19,11 @@ export default {
     submit () {
       axios.post('post/category', { name: this.name })
         .then(response => { this.$router.push('/') })
-        .catch(error => console.log(error))
+        .catch(error => this.$router.push(`/error/${error}`))
     }
   },
   created () {
-    if (!this.$store.getters.isLogged) {
+    if (!this.$store.getters.isLogged || !this.$store.getters.isAdmin) {
       this.$router.push('/')
     }
   }

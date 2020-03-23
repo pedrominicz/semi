@@ -31,17 +31,45 @@ public class UserController {
 
     @PostMapping(path = "login")
     @PreAuthorize("permitAll()")
-    public String login(@RequestBody final User user) throws JsonProcessingException, AuthenticationException {
+    public UserWithToken login(@RequestBody final User user) throws JsonProcessingException, AuthenticationException {
         final Authentication authentication = new UsernamePasswordAuthenticationToken(user.getName(),
                 user.getPassword());
 
-        return JwtUtil.generateToken((User) authenticationManager.authenticate(authentication).getPrincipal());
+        final User authenticatedUser = (User) authenticationManager.authenticate(authentication).getPrincipal();
+
+        final String token = JwtUtil.generateToken(authenticatedUser);
+
+        return new UserWithToken(authenticatedUser, token);
     }
 
     @PostMapping(path = "register")
     @PreAuthorize("permitAll()")
-    public String register(@RequestBody final User user) throws JsonProcessingException, AuthenticationException {
+    public UserWithToken register(@RequestBody final User user)
+            throws JsonProcessingException, AuthenticationException {
         return login(userService.save(user));
+    }
+
+    private class UserWithToken {
+
+        private final User user;
+
+        private final String token;
+
+        public UserWithToken(final User user, final String token) {
+            this.user = user;
+            this.token = token;
+        }
+
+        @SuppressWarnings("unused")
+        public User getUser() {
+            return user;
+        }
+
+        @SuppressWarnings("unused")
+        public String getToken() {
+            return token;
+        }
+
     }
 
 }

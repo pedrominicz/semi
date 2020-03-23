@@ -26,7 +26,7 @@ export default {
       const categories = this.selected.map(name => ({ name: name }))
       axios.post('post', { text: this.text, categories: categories })
         .then(response => { this.$router.push('/') })
-        .catch(error => console.log(error))
+        .catch(error => this.$router.push(`/error/${error}`))
     }
   },
   created () {

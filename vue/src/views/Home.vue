@@ -13,7 +13,7 @@ import axios from 'axios'
 function update (path = '') {
   axios.get(`post/${path.substring(1)}`)
     .then(response => { this.posts = response.data })
-    .catch(error => console.log(error))
+    .catch(error => this.$router.push(`/error/${error}`))
 }
 
 export default {
