@@ -11,7 +11,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'Post',
+  name: 'Category',
   data () {
     return { name: undefined }
   },

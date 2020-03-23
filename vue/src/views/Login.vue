@@ -27,7 +27,7 @@ export default {
           this.$store.commit('setToken', response.data)
           this.$router.push('/')
         })
-        .catch(error => console.log(error))
+        .catch(error => this.$router.push(`/error/${error}`))
     }
   }
 }

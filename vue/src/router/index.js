@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Category from '../views/Category.vue'
+import Error from '../views/Error.vue'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Post from '../views/Post.vue'
@@ -36,6 +37,11 @@ const routes = [
   {
     path: '/category',
     component: Category
+  },
+  {
+    path: '/error/:message',
+    component: Error,
+    props: true
   },
   {
     path: '*',
