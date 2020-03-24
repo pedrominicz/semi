@@ -2,28 +2,14 @@ package io.github.pedrominicz.semi.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import io.github.pedrominicz.semi.model.Category;
-import io.github.pedrominicz.semi.repository.CategoryRepository;
 
-@Service
-public class CategoryService {
+public interface CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    Iterable<Category> findAll();
 
-    public Iterable<Category> findAll() {
-        return categoryRepository.findAll();
-    }
+    List<Category> findByCategoryIn(final List<String> names);
 
-    public List<Category> findByCategoryIn(final List<String> names) {
-        return categoryRepository.findByNameIn(names);
-    }
-
-    public Category save(final Category category) {
-        return categoryRepository.save(category);
-    }
+    Category save(final Category category);
 
 }
