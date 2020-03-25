@@ -41,7 +41,10 @@ public class Post {
 
     public Post(@JsonProperty("text") final String text, @JsonProperty("categories") final List<Category> categories) {
         this.text = text;
-        this.categories = categories;
+
+        if (categories != null) {
+            this.categories = categories;
+        }
     }
 
     public Long getId() {

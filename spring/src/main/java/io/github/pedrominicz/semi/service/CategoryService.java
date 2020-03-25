@@ -12,4 +12,6 @@ public interface CategoryService {
 
     Category save(final Category category);
 
+    void deleteByName(final String name);
+
 }

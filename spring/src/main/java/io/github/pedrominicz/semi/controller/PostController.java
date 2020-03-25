@@ -106,9 +106,19 @@ public class PostController {
      *
      * @param id the ID of the post
      */
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping("{id}")
     public void deleteById(@PathVariable("id") final Long id) {
         postService.deleteById(id);
+    }
+
+    /**
+     * Deletes a category.
+     *
+     * @param name the name of the category
+     */
+    @DeleteMapping("category/{name}")
+    public void deleteCategoryByName(@PathVariable("name") final String name) {
+        postService.deleteCategoryByName(name);
     }
 
 }

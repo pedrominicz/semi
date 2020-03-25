@@ -28,4 +28,8 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.save(category);
     }
 
+    public void deleteByName(final String name) {
+        categoryRepository.deleteByName(name);
+    }
+
 }

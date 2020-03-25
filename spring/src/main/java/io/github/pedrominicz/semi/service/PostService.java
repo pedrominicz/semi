@@ -70,4 +70,11 @@ public interface PostService {
      */
     void deleteById(final Long id);
 
+    /**
+     * Deletes a category.
+     *
+     * @param name the name of the category
+     */
+    public void deleteCategoryByName(final String name);
+
 }

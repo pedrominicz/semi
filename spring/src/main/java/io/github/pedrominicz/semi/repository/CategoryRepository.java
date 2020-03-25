@@ -10,4 +10,6 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
 
     List<Category> findByNameIn(final List<String> names);
 
+    void deleteByName(final String name);
+
 }
