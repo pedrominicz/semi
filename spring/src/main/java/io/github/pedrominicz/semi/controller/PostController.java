@@ -26,96 +26,46 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    /**
-     * Returns all posts.
-     *
-     * @return the posts
-     */
     @GetMapping
     public Iterable<Post> findAll() {
         return postService.findAll();
     }
 
-    /**
-     * Returns a post and all comments that belong to it.
-     *
-     * @param id the ID of the post
-     * @return the post
-     */
     @GetMapping("{id}")
     public Post findById(@PathVariable("id") final Long id) {
         return postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    /**
-     * Returns all posts by a given user.
-     *
-     * @param name the name of the user
-     * @return the posts by the user
-     */
     @GetMapping("user/{name}")
     public List<Post> findByAuthorName(@PathVariable("name") final String name) {
         return postService.findByAuthorName(name);
     }
 
-    /**
-     * Returns all categories.
-     *
-     * @return all the categories
-     */
     @GetMapping("category")
     public Iterable<Category> findAllCategories() {
         return postService.findAllCategories();
     }
 
-    /**
-     * Returns all posts in a given category.
-     *
-     * @param name the category name
-     * @return the posts in the category
-     */
     @GetMapping("category/{name}")
     public List<Post> findByCategoryName(@PathVariable("name") final String name) {
         return postService.findByCategoryName(name);
     }
 
-    /**
-     * Saves a post. The post will also belong to the authenticated user.
-     *
-     * @param post the post to be saved
-     * @return the saved post
-     */
     @PostMapping
     public Post save(@RequestBody final Post post) {
         return postService.save(post);
     }
 
-    /**
-     * Saves a category.
-     *
-     * @param category the category to be saved
-     * @return the saved category
-     */
     @PostMapping("category")
     public Category saveCategory(@RequestBody final Category category) {
         return postService.saveCategory(category);
     }
 
-    /**
-     * Deletes a post.
-     *
-     * @param id the ID of the post
-     */
     @DeleteMapping("{id}")
     public void deleteById(@PathVariable("id") final Long id) {
         postService.deleteById(id);
     }
 
-    /**
-     * Deletes a category.
-     *
-     * @param name the name of the category
-     */
     @DeleteMapping("category/{name}")
     public void deleteCategoryByName(@PathVariable("name") final String name) {
         postService.deleteCategoryByName(name);

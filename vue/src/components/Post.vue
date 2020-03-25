@@ -16,7 +16,7 @@
 
     <footer>
       <span v-for="category in post.categories" :key="category.name">
-        <router-link :to="`/category/${ category.name }`">
+        <router-link :to="`/category/${category.name}`">
           {{ category.name }}
         </router-link>
       </span>
