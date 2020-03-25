@@ -22,22 +22,12 @@ public class SecurityUtil {
         // Empty.
     }
 
-    /**
-     * Returns the authenticated user.
-     *
-     * @return the authenticated user
-     */
     public static User getAuthenticatedUser() {
         final String name = getAuthenticatedUserName();
 
         return userService.findByName(name).orElseThrow(() -> new UsernameNotFoundException(name));
     }
 
-    /**
-     * Returns the user name of the authenticated user.
-     *
-     * @return the user name of the authenticated user
-     */
     public static String getAuthenticatedUserName() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }

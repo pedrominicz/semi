@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header />
-    <router-view/>
+    <Header ref="header" />
+    <router-view @category="changeHeaderCategory" />
   </div>
 </template>
 
@@ -12,6 +12,11 @@ export default {
   name: 'App',
   components: {
     Header
+  },
+  methods: {
+    changeHeaderCategory (name = 'all') {
+      this.$refs.header.setCategory(name)
+    }
   }
 }
 </script>

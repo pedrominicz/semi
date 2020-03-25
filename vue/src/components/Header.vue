@@ -3,7 +3,10 @@
     <!-- Left side. -->
     <router-link class="title" to="/">semi</router-link>
     <div class="dropdown">
-      <button class="dropdown-button">all</button>
+      <button class="dropdown-button">
+        {{ category }}
+      </button>
+
       <div class="dropdown-content">
         <div class="dropdown-item" v-for="category in categories" :key="category.name">
           <router-link :to="`/category/${category.name}`">
@@ -42,13 +45,16 @@ import axios from 'axios'
 export default {
   name: 'Header',
   data () {
-    return { categories: [] }
+    return { categories: [], category: 'all' }
   },
   methods: {
     deleteCategory (name) {
       axios.delete(`post/category/${name}`)
         .then(response => { this.updateCategories() })
         .catch(error => this.$router.push(`/error/${error}`))
+    },
+    setCategory (name = 'all') {
+      this.category = name
     },
     updateCategories () {
       axios.get('post/category')
@@ -58,6 +64,11 @@ export default {
   },
   created () {
     this.updateCategories()
+  },
+  watch: {
+    '$route.path' () {
+      this.updateCategories()
+    }
   }
 }
 </script>

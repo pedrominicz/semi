@@ -19,6 +19,7 @@ function update (path = '') {
 export default {
   name: 'Home',
   components: { Post },
+  props: ['category'],
   data () {
     return { posts: [] }
   },
@@ -28,6 +29,11 @@ export default {
       this.posts = this.posts.filter(post => post.id !== id)
     }
   },
-  watch: { '$route.path': update }
+  watch: {
+    '$route.path': update,
+    category (name) {
+      this.$emit('category', name)
+    }
+  }
 }
 </script>
