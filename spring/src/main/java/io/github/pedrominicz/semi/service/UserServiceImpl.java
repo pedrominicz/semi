@@ -1,34 +1,59 @@
 package io.github.pedrominicz.semi.service;
 
-import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.pedrominicz.semi.model.User;
 import io.github.pedrominicz.semi.repository.UserRepository;
+import io.github.pedrominicz.semi.security.JwtUtil;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public User save(final User user) {
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @PreAuthorize("permitAll()")
+    public User.WithToken login(final User user) throws JsonProcessingException, AuthenticationException {
+        final Authentication authentication = new UsernamePasswordAuthenticationToken(user.getName(),
+                user.getPassword());
+
+        final User authenticatedUser = (User) authenticationManager.authenticate(authentication).getPrincipal();
+
+        final String token = JwtUtil.generateToken(authenticatedUser);
+
+        return new User.WithToken(authenticatedUser, token);
+    }
+
+    @PreAuthorize("permitAll()")
+    public User.WithToken register(final User user)
+            throws JsonProcessingException, AuthenticationException {
+        return login(save(user));
+    }
+
+    private User save(final User user) {
         return userRepository.save(user);
     }
 
     public Optional<User> findByName(final String name) {
         return userRepository.findByName(name);
-    }
-
-    public List<User> findByNameIn(final List<String> names) {
-        return userRepository.findByNameIn(names);
     }
 
     public UserDetails loadUserByUsername(final String name) throws UsernameNotFoundException {

@@ -1,18 +1,19 @@
 package io.github.pedrominicz.semi.service;
 
-import java.util.List;
 import java.util.Optional;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import org.springframework.security.core.AuthenticationException;
 
 import io.github.pedrominicz.semi.model.User;
 
-public interface UserService extends UserDetailsService {
+public interface UserService {
 
-    User save(final User user);
+    User.WithToken login(final User user) throws JsonProcessingException, AuthenticationException;
+
+    User.WithToken register(final User user) throws JsonProcessingException, AuthenticationException;
 
     Optional<User> findByName(final String name);
-
-    List<User> findByNameIn(final List<String> names);
 
 }
