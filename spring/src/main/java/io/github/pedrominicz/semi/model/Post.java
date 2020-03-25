@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Post {
@@ -47,14 +48,17 @@ public class Post {
         }
     }
 
+    @JsonView(Post.class)
     public Long getId() {
         return id;
     }
 
+    @JsonView(Post.class)
     public String getText() {
         return text;
     }
 
+    @JsonView(Post.class)
     public User getAuthor() {
         return author;
     }
@@ -63,6 +67,7 @@ public class Post {
         this.author = author;
     }
 
+    @JsonView(Post.class)
     public List<Category> getCategories() {
         return categories;
     }

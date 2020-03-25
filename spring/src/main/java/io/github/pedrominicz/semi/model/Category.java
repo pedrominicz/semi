@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Category {
@@ -37,6 +38,7 @@ public class Category {
         this.name = name;
     }
 
+    @JsonView(Post.class)
     public String getName() {
         return name;
     }
