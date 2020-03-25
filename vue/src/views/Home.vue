@@ -10,27 +10,35 @@
 import Post from '@/components/Post'
 import axios from 'axios'
 
-function update (path = '') {
-  axios.get(`post/${path.substring(1)}`)
-    .then(response => { this.posts = response.data })
-    .catch(error => this.$router.push(`/error/${error}`))
-}
-
 export default {
   name: 'Home',
   components: { Post },
-  props: ['category'],
+  props: ['user', 'category'],
   data () {
     return { posts: [] }
   },
-  created: update,
+  created () {
+    this.update(this.$route.path)
+    this.$emit('user', this.user)
+    this.$emit('category', this.category)
+  },
   methods: {
     deletePost (id) {
       this.posts = this.posts.filter(post => post.id !== id)
+    },
+    update (path = '') {
+      axios.get(`post/${path.substring(1)}`)
+        .then(response => { this.posts = response.data })
+        .catch(error => this.$router.push(`/error/${error}`))
     }
   },
   watch: {
-    '$route.path': update,
+    '$route.path' (path) {
+      this.update(path)
+    },
+    user (name) {
+      this.$emit('user', name)
+    },
     category (name) {
       this.$emit('category', name)
     }

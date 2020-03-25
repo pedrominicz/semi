@@ -9,7 +9,7 @@
 
       <div class="dropdown-content">
         <div class="dropdown-item" v-for="category in categories" :key="category.name">
-          <router-link :to="`/category/${category.name}`">
+          <router-link :to="getLink(category.name)">
             {{ category.name }}
           </router-link>
 
@@ -45,13 +45,23 @@ import axios from 'axios'
 export default {
   name: 'Header',
   data () {
-    return { categories: [], category: 'all' }
+    return { user: undefined, category: 'all', categories: [] }
   },
   methods: {
     deleteCategory (name) {
       axios.delete(`post/category/${name}`)
         .then(response => { this.updateCategories() })
         .catch(error => this.$router.push(`/error/${error}`))
+    },
+    getLink (name) {
+      if (this.user !== undefined) {
+        return `/user/${this.user}/category/${name}`
+      } else {
+        return `/category/${name}`
+      }
+    },
+    setUser (name) {
+      this.user = name
     },
     setCategory (name = 'all') {
       this.category = name

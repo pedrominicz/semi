@@ -15,8 +15,13 @@ const routes = [
     component: Home
   },
   {
-    path: '/user/*',
+    path: '/user/:user',
     component: Home
+  },
+  {
+    path: '/user/:user/category/:category',
+    component: Home,
+    props: true
   },
   {
     path: '/category/:category',

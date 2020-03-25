@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header ref="header" />
-    <router-view @category="changeHeaderCategory" />
+    <router-view @user="user" @category="category" />
   </div>
 </template>
 
@@ -14,7 +14,10 @@ export default {
     Header
   },
   methods: {
-    changeHeaderCategory (name = 'all') {
+    user (name) {
+      this.$refs.header.setUser(name)
+    },
+    category (name = 'all') {
       this.$refs.header.setCategory(name)
     }
   }
