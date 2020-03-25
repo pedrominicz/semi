@@ -37,8 +37,8 @@ public class PostController {
     }
 
     @GetMapping("user/{name}")
-    public List<Post> findByAuthorName(@PathVariable("name") final String name) {
-        return postService.findByAuthorName(name);
+    public List<Post> findByAuthor(@PathVariable("name") final String name) {
+        return postService.findByAuthor(name);
     }
 
     @GetMapping("category")
@@ -47,8 +47,14 @@ public class PostController {
     }
 
     @GetMapping("category/{name}")
-    public List<Post> findByCategoryName(@PathVariable("name") final String name) {
-        return postService.findByCategoryName(name);
+    public List<Post> findByCategory(@PathVariable("name") final String name) {
+        return postService.findByCategory(name);
+    }
+
+    @GetMapping("user/{author}/category/{category}")
+    public List<Post> findByAuthorAndCategory(@PathVariable("author") final String author,
+            @PathVariable("category") final String category) {
+        return postService.findByAuthorAndCategory(author, category);
     }
 
     @PostMapping

@@ -36,8 +36,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @PreAuthorize("permitAll()")
-    public List<Post> findByAuthorName(final String name) {
-        return postRepository.findByAuthorName(name);
+    public List<Post> findByAuthor(final String name) {
+        return postRepository.findByAuthor(name);
     }
 
     @PreAuthorize("permitAll()")
@@ -46,8 +46,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @PreAuthorize("permitAll()")
-    public List<Post> findByCategoryName(final String name) {
-        return postRepository.findByCategoryName(name);
+    public List<Post> findByCategory(final String name) {
+        return postRepository.findByCategory(name);
+    }
+
+    @PreAuthorize("permitAll()")
+    public List<Post> findByAuthorAndCategory(final String author, final String category) {
+        return postRepository.findByAuthorAndCategory(author, category);
     }
 
     @PreAuthorize("isAuthenticated()")

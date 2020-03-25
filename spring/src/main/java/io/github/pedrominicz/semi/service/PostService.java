@@ -13,11 +13,13 @@ public interface PostService {
 
     Optional<Post> findById(final Long id);
 
-    List<Post> findByAuthorName(final String name);
+    List<Post> findByAuthor(final String name);
 
     Iterable<Category> findAllCategories();
 
-    List<Post> findByCategoryName(final String name);
+    List<Post> findByCategory(final String name);
+
+    List<Post> findByAuthorAndCategory(final String author, final String category);
 
     Post save(final Post post);
 
