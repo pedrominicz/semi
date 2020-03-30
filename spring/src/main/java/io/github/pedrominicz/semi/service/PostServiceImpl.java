@@ -17,7 +17,6 @@ import io.github.pedrominicz.semi.repository.PostRepository;
 import io.github.pedrominicz.semi.security.SecurityUtil;
 
 @Service
-@Transactional
 public class PostServiceImpl implements PostService {
 
     @Autowired

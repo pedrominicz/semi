@@ -14,14 +14,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import io.github.pedrominicz.semi.model.User;
 import io.github.pedrominicz.semi.repository.UserRepository;
 import io.github.pedrominicz.semi.security.JwtUtil;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
