@@ -48,17 +48,17 @@ public class Post {
         }
     }
 
-    @JsonView(Post.class)
+    @JsonView(View.class)
     public Long getId() {
         return id;
     }
 
-    @JsonView(Post.class)
+    @JsonView(View.class)
     public String getText() {
         return text;
     }
 
-    @JsonView(Post.class)
+    @JsonView(View.class)
     public User getAuthor() {
         return author;
     }
@@ -67,13 +67,19 @@ public class Post {
         this.author = author;
     }
 
-    @JsonView(Post.class)
+    @JsonView(View.class)
     public List<Category> getCategories() {
         return categories;
     }
 
     public void setCategories(final List<Category> categories) {
         this.categories = categories;
+    }
+
+    public interface View extends Category.View, User.View {
+
+        // Empty.
+
     }
 
 }

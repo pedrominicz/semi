@@ -29,48 +29,50 @@ public class PostController {
     private PostService postService;
 
     @GetMapping
-    @JsonView(Post.class)
+    @JsonView(Post.View.class)
     public Iterable<Post> findAll() {
         return postService.findAll();
     }
 
     @GetMapping("{id}")
-    @JsonView(Post.class)
+    @JsonView(Post.View.class)
     public Post findById(@PathVariable("id") final Long id) {
         return postService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("user/{name}")
-    @JsonView(Post.class)
+    @JsonView(Post.View.class)
     public List<Post> findByAuthor(@PathVariable("name") final String name) {
         return postService.findByAuthor(name);
     }
 
     @GetMapping("category")
-    @JsonView(Post.class)
+    @JsonView(Post.View.class)
     public Iterable<Category> findAllCategories() {
         return postService.findAllCategories();
     }
 
     @GetMapping("category/{name}")
-    @JsonView(Post.class)
+    @JsonView(Post.View.class)
     public List<Post> findByCategory(@PathVariable("name") final String name) {
         return postService.findByCategory(name);
     }
 
     @GetMapping("user/{author}/category/{category}")
-    @JsonView(Post.class)
+    @JsonView(Post.View.class)
     public List<Post> findByAuthorAndCategory(@PathVariable("author") final String author,
             @PathVariable("category") final String category) {
         return postService.findByAuthorAndCategory(author, category);
     }
 
     @PostMapping
+    @JsonView(Post.View.class)
     public Post save(@RequestBody final Post post) {
         return postService.save(post);
     }
 
     @PostMapping("category")
+    @JsonView(Category.View.class)
     public Category saveCategory(@RequestBody final Category category) {
         return postService.saveCategory(category);
     }

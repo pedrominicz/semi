@@ -10,9 +10,9 @@ import io.github.pedrominicz.semi.model.User;
 
 public interface UserService {
 
-    User.WithToken login(final User user) throws JsonProcessingException, AuthenticationException;
+    User.Token login(final User user) throws JsonProcessingException, AuthenticationException;
 
-    User.WithToken register(final User user) throws JsonProcessingException, AuthenticationException;
+    User.Token register(final User user) throws JsonProcessingException, AuthenticationException;
 
     Optional<User> findByName(final String name);
 

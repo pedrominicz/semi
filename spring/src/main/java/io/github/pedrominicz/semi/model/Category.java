@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -38,14 +37,15 @@ public class Category {
         this.name = name;
     }
 
-    @JsonView(Post.class)
+    @JsonView(View.class)
     public String getName() {
         return name;
     }
 
-    @JsonIgnore
-    public List<Post> getPosts() {
-        return posts;
+    public interface View {
+
+        // Empty.
+
     }
 
 }

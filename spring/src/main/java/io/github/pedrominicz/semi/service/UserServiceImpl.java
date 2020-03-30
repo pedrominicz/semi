@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private AuthenticationManager authenticationManager;
 
     @PreAuthorize("permitAll()")
-    public User.WithToken login(final User user) throws JsonProcessingException, AuthenticationException {
+    public User.Token login(final User user) throws JsonProcessingException, AuthenticationException {
         final Authentication authentication = new UsernamePasswordAuthenticationToken(user.getName(),
                 user.getPassword());
 
@@ -39,11 +39,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         final String token = JwtUtil.generateToken(authenticatedUser);
 
-        return new User.WithToken(authenticatedUser, token);
+        return new User.Token(authenticatedUser, token);
     }
 
     @PreAuthorize("permitAll()")
-    public User.WithToken register(final User user)
+    public User.Token register(final User user)
             throws JsonProcessingException, AuthenticationException {
         return login(save(user));
     }

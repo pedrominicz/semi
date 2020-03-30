@@ -1,5 +1,6 @@
 package io.github.pedrominicz.semi.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,14 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("login")
-    public User.WithToken login(@RequestBody final User user) throws JsonProcessingException, AuthenticationException {
+    @JsonView(User.Token.View.class)
+    public User.Token login(@RequestBody final User user) throws JsonProcessingException, AuthenticationException {
         return userService.login(user);
     }
 
     @PostMapping("register")
-    public User.WithToken register(@RequestBody final User user)
+    @JsonView(User.Token.View.class)
+    public User.Token register(@RequestBody final User user)
             throws JsonProcessingException, AuthenticationException {
         return userService.register(user);
     }

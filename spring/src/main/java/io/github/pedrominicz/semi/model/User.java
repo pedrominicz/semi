@@ -55,7 +55,7 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    @JsonView(Post.class)
+    @JsonView(View.class)
     public String getName() {
         return name;
     }
@@ -72,6 +72,7 @@ public class User implements UserDetails {
         return password;
     }
 
+    @JsonView(Token.View.class)
     public Boolean getAdmin() {
         return admin;
     }
@@ -114,24 +115,38 @@ public class User implements UserDetails {
         return true;
     }
 
-    public static class WithToken {
+    public static class Token {
 
         private final User user;
 
         private final String token;
 
-        public WithToken(final User user, final String token) {
+        public Token(final User user, final String token) {
             this.user = user;
             this.token = token;
         }
 
+        @JsonView(View.class)
         public User getUser() {
             return user;
         }
 
+        @JsonView(View.class)
         public String getToken() {
             return token;
         }
+
+        public interface View extends User.View {
+
+            // Empty.
+
+        }
+
+    }
+
+    public interface View {
+
+        // Empty.
 
     }
 
