@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.pedrominicz.semi.model.Category;
 import io.github.pedrominicz.semi.model.Post;
 import io.github.pedrominicz.semi.model.User;
+import io.github.pedrominicz.semi.repository.CategoryRepository;
 import io.github.pedrominicz.semi.repository.PostRepository;
 import io.github.pedrominicz.semi.security.SecurityUtil;
 
@@ -20,7 +21,7 @@ import io.github.pedrominicz.semi.security.SecurityUtil;
 public class PostServiceImpl implements PostService {
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private PostRepository postRepository;
@@ -42,7 +43,7 @@ public class PostServiceImpl implements PostService {
 
     @PreAuthorize("permitAll()")
     public Iterable<Category> findAllCategories() {
-        return categoryService.findAll();
+        return categoryRepository.findAll();
     }
 
     @PreAuthorize("permitAll()")
@@ -56,6 +57,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @Transactional
     public Post save(final Post post) {
         final User user = SecurityUtil.getAuthenticatedUser();
 
@@ -63,15 +65,15 @@ public class PostServiceImpl implements PostService {
 
         final List<Category> categories = post.getCategories();
 
-        post.setCategories(categoryService
-                .findByCategoryIn(categories.stream().map(Category::getName).collect(Collectors.toList())));
+        post.setCategories(categoryRepository
+                .findByNameIn(categories.stream().map(Category::getName).collect(Collectors.toList())));
 
         return postRepository.save(post);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public Category saveCategory(final Category category) {
-        return categoryService.save(category);
+        return categoryRepository.save(category);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -81,7 +83,7 @@ public class PostServiceImpl implements PostService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategoryByName(final String name) {
-        categoryService.deleteByName(name);
+        categoryRepository.deleteByName(name);
     }
 
 }
