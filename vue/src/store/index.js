@@ -10,10 +10,10 @@ export default new Vuex.Store({
   },
   getters: {
     isLogged (state) {
-      return !!state.token
+      return state.token && state.user
     },
     isAdmin (state) {
-      return state.user && state.user.admin
+      return state.token && state.user && state.user.admin
     }
   },
   mutations: {

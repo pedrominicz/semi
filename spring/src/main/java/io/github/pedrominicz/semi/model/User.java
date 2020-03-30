@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -60,13 +59,12 @@ public class User implements UserDetails {
         return name;
     }
 
-    @JsonIgnore
     @Override
     public String getUsername() {
         return getName();
     }
 
-    @JsonIgnore
+    @JsonView(Token.View.class)
     @Override
     public String getPassword() {
         return password;
@@ -77,7 +75,6 @@ public class User implements UserDetails {
         return admin;
     }
 
-    @JsonIgnore
     @Override
     public List<SimpleGrantedAuthority> getAuthorities() {
         final List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>(2);
@@ -91,25 +88,21 @@ public class User implements UserDetails {
         return authorities;
     }
 
-    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
@@ -117,23 +110,31 @@ public class User implements UserDetails {
 
     public static class Token {
 
-        private final User user;
+        private final String name;
 
         private final String token;
 
+        private final Boolean admin;
+
         public Token(final User user, final String token) {
-            this.user = user;
+            this.name = user.getName();
             this.token = token;
+            this.admin = user.getAdmin();
         }
 
         @JsonView(View.class)
-        public User getUser() {
-            return user;
+        public String getName() {
+            return name;
         }
 
         @JsonView(View.class)
         public String getToken() {
             return token;
+        }
+
+        @JsonView(View.class)
+        public Boolean getAdmin() {
+            return admin;
         }
 
         public interface View extends User.View {

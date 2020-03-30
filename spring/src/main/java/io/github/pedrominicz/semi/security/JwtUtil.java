@@ -1,15 +1,17 @@
 package io.github.pedrominicz.semi.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import io.github.pedrominicz.semi.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+@Component
 public class JwtUtil {
 
     private static final String secret = "secret";
@@ -19,11 +21,11 @@ public class JwtUtil {
     @Autowired
     private JwtUtil(final ObjectMapper objectMapper) {
         JwtUtil.objectMapper = objectMapper;
-        JwtUtil.objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        JwtUtil.objectMapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
     }
 
     public static String generateToken(final User user) throws JsonProcessingException {
-        final String userJson = objectMapper.writeValueAsString(user);
+        final String userJson = objectMapper.writerWithView(User.Token.class).writeValueAsString(user);
 
         return Jwts.builder().claim("user", userJson).signWith(SignatureAlgorithm.HS512, secret).compact();
     }
@@ -32,7 +34,7 @@ public class JwtUtil {
         final String content = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("user",
                 String.class);
 
-        return objectMapper.readValue(content, User.class);
+        return objectMapper.readerWithView(User.Token.class).forType(User.class).readValue(content);
     }
 
 }

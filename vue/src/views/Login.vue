@@ -25,7 +25,10 @@ export default {
       axios.post(path, { name: this.name, password: this.password })
         .then(response => {
           this.$store.commit('setToken', response.data.token)
-          this.$store.commit('setUser', response.data.user)
+          this.$store.commit('setUser', {
+            name: response.data.name,
+            admin: response.data.admin
+          })
           this.$router.push('/')
         })
         .catch(error => this.$router.push(`/error/${error}`))
