@@ -81,6 +81,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
     public void deleteCategoryByName(final String name) {
         categoryRepository.deleteByName(name);
     }
