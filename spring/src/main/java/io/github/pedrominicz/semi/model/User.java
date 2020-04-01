@@ -64,7 +64,6 @@ public class User implements UserDetails {
         return getName();
     }
 
-    @JsonView(Token.View.class)
     @Override
     public String getPassword() {
         return password;

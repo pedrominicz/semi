@@ -25,16 +25,16 @@ public class JwtUtil {
     }
 
     public static String generateToken(final User user) throws JsonProcessingException {
-        final String userJson = objectMapper.writerWithView(User.Token.class).writeValueAsString(user);
+        final String userJson = objectMapper.writerWithView(User.Token.View.class).writeValueAsString(user);
 
         return Jwts.builder().claim("user", userJson).signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
     public static User parseToken(final String token) throws JsonProcessingException {
-        final String content = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("user",
+        final String userJson = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("user",
                 String.class);
 
-        return objectMapper.readerWithView(User.Token.class).forType(User.class).readValue(content);
+        return objectMapper.readerWithView(User.Token.View.class).forType(User.class).readValue(userJson);
     }
 
 }
